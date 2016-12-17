@@ -1,8 +1,12 @@
+import entity.Permission;
+import entity.Role;
 import entity.User;
 import org.hibernate.SessionFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
 
@@ -11,16 +15,54 @@ public class App {
         EntityManager entityManager = sessionFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
-//        User u1 = new User();
-//        u1.setName("John");
-//        u1.setLogin("john");
-//
-//        User u2 = new User();
-//        u2.setName("Daenerys");
-//        u2.setLogin("daenerys");
-//
-//        entityManager.persist(u1);
-//        entityManager.persist(u2);
+        Role memberRole = new Role();
+        memberRole.setName("member");
+
+        Role adminRole = new Role();
+        adminRole.setName("admin");
+
+        Permission readPermission = new Permission();
+        readPermission.setName("read");
+
+        Permission writePermission = new Permission();
+        writePermission.setName("write");
+
+        Permission banPermission = new Permission();
+        banPermission.setName("ban");
+
+        Permission deletePermission = new Permission();
+        deletePermission.setName("delete");
+
+        List<Permission> memberPermissions = new ArrayList<Permission>();
+        memberPermissions.add(readPermission);
+        memberPermissions.add(writePermission);
+
+        List<Permission> adminPermissions = new ArrayList<Permission>();
+        adminPermissions.add(readPermission);
+        adminPermissions.add(writePermission);
+        adminPermissions.add(banPermission);
+        adminPermissions.add(deletePermission);
+
+        memberRole.setPermissions(memberPermissions);
+        adminRole.setPermissions(adminPermissions);
+
+        User user = new User();
+        user.setName("John");
+        user.setLogin("john");
+        user.setPassword("123");
+        user.setRole(memberRole);
+
+        entityManager.persist(readPermission);
+        entityManager.persist(writePermission);
+        entityManager.persist(banPermission);
+        entityManager.persist(deletePermission);
+
+        entityManager.persist(memberRole);
+        entityManager.persist(adminRole);
+
+        entityManager.persist(user);
+
+
         entityManager.getTransaction().commit();
 
         entityManager.close();

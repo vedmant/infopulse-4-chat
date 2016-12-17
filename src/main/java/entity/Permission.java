@@ -11,13 +11,13 @@ import java.util.List;
 public class Permission {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
     @OneToMany(orphanRemoval = true, mappedBy = "permission", cascade = CascadeType.ALL)
-    private List<RolePermission> roles;
+    private List<RolePermission> rolePermissions;
 
     public String getName() {
         return name;
@@ -27,11 +27,11 @@ public class Permission {
         this.name = name;
     }
 
-    public List<RolePermission> getRoles() {
-        return roles;
+    public List<RolePermission> getRolePermissions() {
+        return rolePermissions;
     }
 
-    public void setRoles(List<RolePermission> roles) {
-        this.roles = roles;
+    public void setRolePermissions(List<RolePermission> rolePermissions) {
+        this.rolePermissions = rolePermissions;
     }
 }

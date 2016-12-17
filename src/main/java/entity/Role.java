@@ -1,6 +1,7 @@
 package entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -8,7 +9,7 @@ import java.util.List;
 public class Role {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -17,10 +18,10 @@ public class Role {
     private List<User> users;
 
     @OneToMany(orphanRemoval = true, mappedBy = "role", cascade = CascadeType.ALL)
-    private List<RolePermission> permissions;
+    private List<RolePermission> rolePermissions;
 
 //    @ManyToMany(cascade = CascadeType.ALL)
-//    private List<Permission> permissions;
+//    private List<Permission> rolePermissions;
 
 
     public Long getId() {
@@ -47,12 +48,23 @@ public class Role {
         this.users = users;
     }
 
-    public List<RolePermission> getPermissions() {
-        return permissions;
+    public List<RolePermission> getRolePermissions() {
+        return rolePermissions;
     }
 
-    public void setPermissions(List<RolePermission> permissions) {
-        this.permissions = permissions;
+    public void setRolePermissions(List<RolePermission> rolePermissions) {
+        this.rolePermissions = rolePermissions;
     }
 
+    public void setPermissions(List<Permission> permissions) {
+        List<RolePermission> rolePermissions = new ArrayList<RolePermission>();
+        for (Permission permission: permissions) {
+            RolePermission rolePermission = new RolePermission();
+            rolePermission.setRole(this);
+            rolePermission.setPermission(permission);
+            rolePermissions.add(rolePermission);
+        }
+
+        this.rolePermissions = rolePermissions;
+    }
 }
