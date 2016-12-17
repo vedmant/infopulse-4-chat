@@ -1,3 +1,4 @@
+import entity.BadUser;
 import entity.Permission;
 import entity.Role;
 import entity.User;
@@ -50,7 +51,14 @@ public class App {
         user.setName("John");
         user.setLogin("john");
         user.setPassword("123");
-        user.setRole(memberRole);
+        user.setRole(adminRole);
+
+        BadUser badUser = new BadUser();
+        badUser.setName("Bad");
+        badUser.setLogin("bad");
+        badUser.setPassword("123");
+        badUser.setDebt("123");
+        badUser.setRole(adminRole);
 
         entityManager.persist(readPermission);
         entityManager.persist(writePermission);
@@ -61,6 +69,7 @@ public class App {
         entityManager.persist(adminRole);
 
         entityManager.persist(user);
+        entityManager.persist(badUser);
 
 
         entityManager.getTransaction().commit();

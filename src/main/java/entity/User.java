@@ -6,6 +6,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "is_good", discriminatorType = DiscriminatorType.STRING, length = 31)
+@DiscriminatorValue(value = "good_user")
 public class User implements Serializable {
 
     @Id
